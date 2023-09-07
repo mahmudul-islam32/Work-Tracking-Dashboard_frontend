@@ -54,11 +54,14 @@ const SalaryCalculator = () => {
 
   const fetchUserData = async (token) => {
     try {
-      const response = await axios.get("https://work-tracking-backend.onrender.com/api/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://work-tracking-backend.onrender.com/api/user",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setUser(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -67,11 +70,14 @@ const SalaryCalculator = () => {
 
   const fetchSalaries = async (token) => {
     try {
-      const response = await axios.get("https://work-tracking-backend.onrender.com/api/salaries", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://work-tracking-backend.onrender.com/api/salaries",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setSalaries(response.data);
     } catch (error) {
       console.error("Error fetching salaries:", error);
@@ -85,10 +91,13 @@ const SalaryCalculator = () => {
         setMessageType("error");
         return;
       }
-      const response = await axios.post("https://work-tracking-backend.onrender.com/api/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://work-tracking-backend.onrender.com/api/login",
+        {
+          username,
+          password,
+        }
+      );
       const { token } = response.data;
       setToken(token);
       setUsername("");
@@ -106,20 +115,39 @@ const SalaryCalculator = () => {
 
   const handleRegistration = async () => {
     try {
-      const response = await axios.post("https://work-tracking-backend.onrender.com/api/register", {
-        username,
-        password,
-      });
-      const { token } = response.data;
-      setToken(token);
-      setUsername("");
-      setPassword("");
-      localStorage.setItem("token", token);
-      fetchUserData(token);
-      fetchSalaries(token);
-      setMessage("Registration successful. Please Go to Login Page for Log in");
-      setMessageType("success");
+      if (!username || !password) {
+        setMessage("Username and password are required.");
+        setMessageType("error");
+        return;
+      }
+
+      const response = await axios.post(
+        "https://work-tracking-backend.onrender.com/api/register",
+        {
+          username,
+          password,
+        }
+      );
+
+      if (response.status === 200) {
+        const { token } = response.data;
+        setToken(token);
+        setUsername("");
+        setPassword("");
+        localStorage.setItem("token", token);
+        fetchUserData(token);
+        fetchSalaries(token);
+        setMessage("Registration successful.");
+        setMessageType("success");
+      } else if (response.data.error === "Username already exists") {
+        setMessage("Username already exists. Please choose a different one.");
+        setMessageType("error");
+      } else {
+        setMessage("Registration failed. Please try again later.");
+        setMessageType("error");
+      }
     } catch (error) {
+      console.error("Registration Error:", error);
       setMessage("Registration failed. Please try again.");
       setMessageType("error");
     }
@@ -170,11 +198,14 @@ const SalaryCalculator = () => {
 
   const handleDeleteSalary = async (salaryId) => {
     try {
-      await axios.delete(`https://work-tracking-backend.onrender.com/api/salaries/${salaryId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `https://work-tracking-backend.onrender.com/api/salaries/${salaryId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       fetchSalaries(token);
       setMessage("Salary entry deleted successfully.");
       setMessageType("success");
@@ -186,11 +217,14 @@ const SalaryCalculator = () => {
 
   const handleDeleteAllSalaries = async () => {
     try {
-      await axios.delete("https://work-tracking-backend.onrender.com/api/salaries", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        "https://work-tracking-backend.onrender.com/api/salaries",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       fetchSalaries(token); // Fetch salaries again to update the UI
       setMessage("All salary entries deleted successfully");
       setMessageType("success");
