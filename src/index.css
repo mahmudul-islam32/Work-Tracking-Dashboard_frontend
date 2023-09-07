@@ -301,4 +301,7 @@ h3.title {
     max-width: none; /* Remove max-width */
     border-radius: 0; /* Remove border-radius */
   }
+  .registration-form {
+    width: 100%;
+}
 }
