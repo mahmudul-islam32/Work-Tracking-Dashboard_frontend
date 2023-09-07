@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const RegistrationForm = ({
   username,
@@ -51,9 +51,8 @@ export const RegistrationForm = ({
               className="btn btn-secondary cancel-button"
               onClick={() => setRegistrationMode(false)}
             >
-              Cancel
+              Go Back to Login
             </button>
-            {message && <p className="message">{message}</p>}
           </div>
         </div>
       </div>
