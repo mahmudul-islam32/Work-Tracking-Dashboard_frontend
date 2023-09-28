@@ -129,27 +129,40 @@ const SalaryCalculator = () => {
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
+        // Registration was successful
         const { token } = response.data;
         setToken(token);
         setUsername("");
         setPassword("");
         localStorage.setItem("token", token);
-        fetchUserData(token);
-        fetchSalaries(token);
         setMessage("Registration successful.");
         setMessageType("success");
-      } else if (response.data.error === "Username already exists") {
-        setMessage("Username already exists. Please choose a different one.");
-        setMessageType("error");
-      } else {
-        setMessage("Registration failed. Please try again later.");
-        setMessageType("error");
       }
     } catch (error) {
-      console.error("Registration Error:", error);
-      setMessage("Registration failed. Please try again.");
-      setMessageType("error");
+      if (error.response) {
+        // Server responded with an error status code
+        if (
+          error.response.status === 400 &&
+          error.response.data.message === "Username already exists"
+        ) {
+          setMessage("Username already exists. Please try with another name");
+          setMessageType("error");
+        } else {
+          setMessage("Registration failed. Please try again.");
+          setMessageType("error");
+        }
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error("No response received from the server.");
+        setMessage("Registration failed. Please try again.");
+        setMessageType("error");
+      } else {
+        // Something else went wrong
+        console.error("An error occurred:", error.message);
+        setMessage("Registration failed. Please try again.");
+        setMessageType("error");
+      }
     }
   };
 

@@ -303,5 +303,28 @@ h3.title {
   }
   .registration-form {
     width: 100%;
-}
+  }
+  .key-details .col-md-3 {
+    width: 90%;
+    margin-bottom: 13px;
+    margin-left: 20px;
+    margin-right: 10px !important;
+  }
+  .container.dashboard-header {
+    margin-left: 20px;
+    width: 90%;
+  }
+  .justify-content-end {
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .workAdd {
+    width: 90%;
+    margin-left: 20px;
+    margin-bottom: 15px;
+  }
+  .salaries-section {
+    width: 90%;
+    margin-left: 20px;
+  }
 }
