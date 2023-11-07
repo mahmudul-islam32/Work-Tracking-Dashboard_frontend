@@ -8,6 +8,7 @@ import { KeyDetails } from "./KeyDetails";
 import { WorkAdd } from "./WorkAdd";
 import { WorkDetails } from "./WorkDetails";
 import { MessageDisplay } from "./MessageDisplay";
+import Loader from "./Loader";
 
 const SalaryCalculator = () => {
   const [user, setUser] = useState(null);
@@ -29,6 +30,7 @@ const SalaryCalculator = () => {
   const [employmentType, setEmploymentType] = useState("fullTime");
   const [socialTaxRate, setSocialTaxRate] = useState(0);
   const [incomeTaxRate, setIncomeTaxRate] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const maxHours = employmentType === "fullTime" ? 200 : 100;
 
@@ -85,6 +87,7 @@ const SalaryCalculator = () => {
   };
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
       if (!username || !password) {
         setMessage("Username and password are required.");
@@ -110,10 +113,13 @@ const SalaryCalculator = () => {
     } catch (error) {
       setMessage("Login failed. Please check your credentials.");
       setMessageType("error");
+    } finally {
+      setLoading(false); // Set loading back to false after the request completes or fails
     }
   };
 
   const handleRegistration = async () => {
+    setLoading(true);
     try {
       if (!username || !password) {
         setMessage("Username and password are required.");
@@ -163,6 +169,8 @@ const SalaryCalculator = () => {
         setMessage("Registration failed. Please try again.");
         setMessageType("error");
       }
+    } finally {
+      setLoading(false); // Set loading back to false after the request completes or fails
     }
   };
 
@@ -338,7 +346,7 @@ const SalaryCalculator = () => {
         messageType={messageType}
         closeMessage={closeMessage}
       />
-      {/* User Authentication and Registration */}
+      {loading && <Loader />}
       {user ? (
         <>
           <DashboardHeader
