@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const LoginForm = ({
   username,
@@ -48,7 +48,7 @@ export const LoginForm = ({
               Login
             </button>
             <p className="mt-3">
-              Don't have an account?{' '}
+              Don't have an account?{" "}
               <button
                 className="btn btn-link reg"
                 onClick={() => setRegistrationMode(true)}
@@ -56,6 +56,8 @@ export const LoginForm = ({
                 Register
               </button>
             </p>
+            <p>Username: demo, Password: demo</p>
+            
           </div>
         </div>
       </div>

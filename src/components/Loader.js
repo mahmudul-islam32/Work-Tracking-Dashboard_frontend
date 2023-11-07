@@ -1,10 +1,9 @@
 function Loader() {
-    return (
-        <div className="loader-container">
-          <div className="loader"></div>
-          <p>Loging In...</p>
-        </div>
-      );
+  return (
+    <div className="loader-container">
+      <div className="loader"></div>
+    </div>
+  );
 }
 
-export default Loader
+export default Loader;
